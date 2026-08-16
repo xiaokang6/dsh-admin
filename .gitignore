@@ -1,0 +1,4 @@
+# 本机开发文件（含机器特定路径，不进仓库）
+node_modules/
+*.log
+.dsh-admin-test/

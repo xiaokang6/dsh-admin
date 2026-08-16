@@ -1,0 +1,5 @@
+# dsh-admin bundle patch: mount the plugin as a single composition row.
+# 通过 profile 的任意 cordis.patch.yml 层应用此行即可装载（loader 以包名解析）。
+- insert:
+    - id: dsh-admin
+      name: 'dsh-admin'

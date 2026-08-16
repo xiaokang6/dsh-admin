@@ -1,0 +1,52 @@
+{
+  "name": "dsh-admin",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness Web GUI admin plugin: manual restart + auto version check (header button + settings page)",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "README.md",
+    "README.zh.md",
+    "LICENSE",
+    "cordis.patch.yml"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiaokang6/dsh-admin.git"
+  },
+  "homepage": "https://github.com/xiaokang6/dsh-admin#readme",
+  "bugs": {
+    "url": "https://github.com/xiaokang6/dsh-admin/issues"
+  },
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "admin",
+    "restart",
+    "update-checker"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-locale"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
+}
