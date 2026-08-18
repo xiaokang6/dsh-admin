@@ -6,8 +6,9 @@ A DeepSeek Harness Web GUI admin plugin: **manual restart** + **automatic versio
 
 - **Manual restart** — a button in the session header (top-right, beside session log): one click schedules a clean restart of the dsh web service (double-confirm, then `systemd-run + dsh-plugin-op restart` — the local convention script that stops systemd, clears orphan instances on :3080, starts clean, and health-verifies).
 - **Auto version check** — compares the installed `@deepseek-ai/dsh` against the npm `latest` tag (semver-aware: stable > rc). Checked on load, then every 6 hours on the host; the panel shows current/latest/last-checked and a status dot (green = up to date, yellow = update available, red = check failed).
+- **One-click update** — when a newer version is available, a blue "Update to latest" button appears: it runs `npm install -g @deepseek-ai/dsh@latest` (with `--allow-scripts` for native deps) and then auto-restarts the service so the new version takes effect.
 - **Embedded UI** — no standalone page:
-  - Top-right header button `🟢 0.1.0-rc.6` (session header utilities slot, beside session log — never overlaps anything) → click to open a floating panel: version status, check-now button, service info, restart button.
+  - Top-right header button `🟢 0.1.1` (session header utilities slot, beside session log — never overlaps anything) → click to open a floating panel (top layer, z-index 9999): version status, check-now button, update button (when newer available), service info, restart button.
   - Settings → **DSH Admin** full page (same content, larger layout).
 
 ## Routes (host half)
@@ -17,6 +18,7 @@ A DeepSeek Harness Web GUI admin plugin: **manual restart** + **automatic versio
 | `GET /plugin/dshadmin/status` | JSON: current/latest version, `isNewer`, service info (pid, systemd, restart command) |
 | `GET /plugin/dshadmin/health` | `{ok:true}` |
 | `POST /plugin/dshadmin/check` | Force re-check npm latest |
+| `POST /plugin/dshadmin/update` | Update `@deepseek-ai/dsh` to npm latest then auto-restart (body must be `{"confirm":true}`) |
 | `POST /plugin/dshadmin/restart` | Schedule restart (body must be `{"confirm":true}`) |
 
 Restart priority: ① `systemd-run` + `dsh-plugin-op restart` (isolated cgroup — `dsh.service` is `KillMode=control-group`, a direct spawn would be killed by its own `systemctl stop dsh`; the transient unit runs the whole script: stop → clear :3080 orphans → clean start → health check) → ② plain `dsh-plugin-op restart` → ③ `systemctl --no-block restart dsh` → ④ socket-pid kill + relaunch.

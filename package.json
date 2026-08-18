@@ -1,6 +1,6 @@
 {
   "name": "dsh-admin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DeepSeek Harness Web GUI admin plugin: manual restart + auto version check (header button + settings page)",
   "type": "module",
   "main": "lib/index.js",
